@@ -261,8 +261,8 @@ types:
             type: SmsresponseError
 /account/numbers:
   get:
-    displayName: ListOwnedNumbers
-    description: List owned numbers
+    displayName: List rented numbers
+    description: Retrieve all the inbound numbers associated with your Nexmo account.
     queryParameters:
       api_key:
         required: true
@@ -274,10 +274,16 @@ types:
         displayName: API Secret
         description: The API Key's secret
         type: string
+      pattern:
+        required: false
+        displayName: pattern
+        description: Number pattern to search for.
+        type: number
+        format: double
       search_pattern:
         required: false
         displayName: Search Pattern
-        description: Pick a pattern.
+        description: Strategy for matching pattern. Expected values 0 = starts with (default), 1 = anywhere, 2 = ends with.
         type: integer
         format: int32
         enum:
@@ -287,19 +293,13 @@ types:
       index:
         required: false
         displayName: index
-        description: Index in the response.
+        description: The page index. Defaut is 1
         type: number
         format: double
       size:
         required: false
         displayName: size
         description: Default 10 Max 100.
-        type: number
-        format: double
-      pattern:
-        required: false
-        displayName: pattern
-        description: Number pattern to search for.
         type: number
         format: double
     responses:
@@ -310,8 +310,8 @@ types:
             type: ListnumbersresponseError
 /number/search:
   get:
-    displayName: List owned numbers
-    description: The Numbers API lets you manage your numbers and buy new virtual numbers for use with Nexmo's APIs.
+    displayName: Search for outbound number
+    description: Retrieve inbound numbers that are available for a given country.
     queryParameters:
       api_key:
         required: true
@@ -328,26 +328,26 @@ types:
         displayName: country
         description: Code in ISO 3166-1 alpha-2 format.
         type: string
-      search_pattern:
-        required: false
-        displayName: Search Pattern
-        description: Pick a pattern.
-        type: integer
-        format: int32
-        enum:
-        - 0
-        - 1
-        - 2
       pattern:
         required: false
         displayName: pattern
         description: Number pattern to search for.
         type: number
         format: double
+      search_pattern:
+        required: false
+        displayName: Search Pattern
+        description: Strategy for matching pattern. Expected values 0 = starts with (default), 1 = anywhere, 2 = ends with.
+        type: integer
+        format: int32
+        enum:
+        - 0
+        - 1
+        - 2
       features:
         required: false
         displayName: features
-        description: SMS or VOICE
+        description: Available features are SMS and VOICE. For both features, use a comma-separated value SMS,VOICE.
         type: string
       size:
         required: false
@@ -358,7 +358,7 @@ types:
       index:
         required: false
         displayName: index
-        description: Index in the response.
+        description: The page index. Defaut is 1
         type: number
         format: double
     responses:
@@ -368,7 +368,7 @@ types:
           application/json:
             type: ListnumbersresponseError
 /number/buy:
-  get:
+  post:
     displayName: Buy an inbound number
     description: Request to purchase a specific inbound number.
     queryParameters:
@@ -399,7 +399,7 @@ types:
           application/json:
             type: ListnumbersresponseError
 /number/cancel:
-  get:
+  post:
     displayName: Cancel an inbound number
     description: Cancel your subscription for a specific inbound number.
     queryParameters:
@@ -421,11 +421,11 @@ types:
       msisdn:
         required: true
         displayName: msisdn
-        description: An available inbound virtual number. For example, 447700900000
+        description: The invound virtual number to cancel. For example, 447700900000
         type: string
     responses:
       200:
         description: ''
         body:
           application/json:
-            type: ListnumbersresponseError
+            type: ListnumbersresponseError            
