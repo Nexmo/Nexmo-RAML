@@ -398,6 +398,62 @@ types:
         body:
           application/json:
             type: ListnumbersresponseError
+/number/update:
+  post:
+    displayName: Update an inbound number
+    description: Change the behaviour of a number that you've rented.
+    queryParameters:
+      api_key:
+        required: true
+        displayName: API Key
+        description: Your Nexmo account API key
+        type: string
+      api_secret:
+        required: true
+        displayName: API Secret
+        description: The API Key's secret
+        type: string
+      country:
+        required: true
+        displayName: country
+        description: Code in ISO 3166-1 alpha-2 format.
+        type: string
+      msisdn:
+        required: true
+        displayName: msisdn
+        description: An available inbound virtual number. For example, 447700900000
+        type: string
+      moHttpUrl:
+        required: false
+        displayName: moHttpUrl
+        description: An URL encoded URI to the webhook endpoint endpoint that handles inbound messages. Your webhook endpoint must be active before you make this request, Nexmo makes a GET request to your endpoint and checks that it returns a 200 OK response. Set to empty string to clear.
+        type: string
+      moSmppSysType:
+        required: false
+        displayName: moSmppSysType
+        description: The associated system type for your SMPP client. For example inbound
+        type: string
+      voiceCallbackType:
+        required: false
+        displayName: voiceCallbackType
+        description: The voice webhook type. Possible values are sip, tel, vxml (VoiceXML) or app
+        type: string
+      voiceCallbackValue:
+        required: false
+        displayName: voiceCallbackValue
+        description: A URI for your voiceCallbackType or an Application ID
+        type: string
+      voiceStatusCallback:
+        required: false
+        displayName: voiceStatusCallback
+        description: Nexmo sends a request to this webhook endpoint when a call ends.
+        type: string
+    responses:
+      200:
+        description: ''
+        body:
+          application/json:
+            type: ListnumbersresponseError
 /number/cancel:
   post:
     displayName: Cancel an inbound number
